@@ -62,3 +62,46 @@ let dictionariesGeneric: [String : Any] = [
  
 print("value is: \(dictionariesGeneric["123"])")
 
+// Control Flow
+
+var name: String? = "my name is topperson"
+
+let type = if name!.count > 10 {
+    "BOOM"
+} else {
+    "NOOO"
+}
+
+if let _name = name {
+    print("Value exist \(_name)")
+}
+
+name = nil
+
+if let _ = name {
+    print("none")
+} else {
+    print("name is nill")
+}
+
+var customName : String? = nil
+let defautName: String = "Lucas"
+print(" ")
+print("current name is \(customName ?? defautName)")
+
+customName = "the ninja"
+
+if let customName {
+    print("name find is \(customName)")
+}
+
+let typeTest : String = "ABqD"
+
+switch typeTest {
+    case let type where type.hasPrefix("AB"):
+        print("Prefix está OK")
+    case "ACD":
+        print("ACD find")
+    default:
+        print("all ok")
+}
