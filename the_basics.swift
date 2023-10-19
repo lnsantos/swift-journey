@@ -137,3 +137,14 @@ repeat {
       totalSubItens += 1
      
 } while totalSubItens <= 10
+
+var total = 0
+for i in 0..<4 {
+    total += i
+    print("II -> current value is ", i, " expected last number is 3")
+}
+
+for i in 0...4 {
+    total += i
+    print("II -> current value is ", i, "expected last number is 4")
+}
