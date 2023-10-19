@@ -105,3 +105,35 @@ switch typeTest {
     default:
         print("all ok")
 }
+
+let myDictionary = [
+    "Prime": [2, 3, 5, 7, 11, 13],
+    "Fibonacci": [1, 1, 2, 3, 5, 8],
+    "Square": [1, 4, 9, 16, 25],
+]
+
+var totalLenghtConctKey = 0
+var totalSubItens = 0
+
+for (key, value) in myDictionary {
+    totalLenghtConctKey = key.count + totalLenghtConctKey
+    for i in value {
+        totalSubItens += 1
+    }
+}
+
+print("")
+print("Count key total : ", totalLenghtConctKey, " total sub itens : ", totalSubItens)
+
+while totalSubItens > 1 {
+    totalSubItens -= 1
+}
+
+print("total sub itens finished ", totalSubItens)
+
+repeat {
+
+      print("current value is ", totalSubItens)
+      totalSubItens += 1
+     
+} while totalSubItens <= 10
