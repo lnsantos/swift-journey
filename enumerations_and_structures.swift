@@ -101,3 +101,30 @@ func recursiveEnumerations() -> Int {
 }
 
 print(recursiveEnumerations())
+
+// struct
+
+enum Prefission : String, CaseIterable {
+    case Developer, LamberJack
+}
+
+struct Person {
+    let name: String
+    let year: Int
+    let prefission: Prefission
+
+    func toJson() -> String {
+        return """
+
+         {
+            "name": "\(name)",
+            "year": \(year),
+            "presission": "\(prefission.rawValue)"
+         }
+
+        """
+    }
+}
+
+let p = Person(name: "Josh", year: 1999, prefission: .Developer)
+print(p.toJson())
