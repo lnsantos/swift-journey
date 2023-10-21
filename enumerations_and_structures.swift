@@ -73,3 +73,31 @@ for i in EnumRawNative.allCases {
 
 let testInitRaw = EnumRawNative(rawValue: "About")
 print(testInitRaw?.rawValue)
+
+indirect enum Called {
+    case number(x: Int)
+    case sum(Called, Called)
+    case multiplication(x: Int , value:Called)
+}
+
+func recursiveEnumerations() -> Int {
+    let number10 = Called.number(x: 10)
+    let number50 = Called.number(x: 50)
+    let sum = Called.sum(number10, number50)
+    let mult = Called.multiplication(x: 100, value: sum)
+
+    func closureEvaluate(value: Called) -> Int {
+        switch value {
+            case let .number(x):
+                return x
+            case let .sum(x, y):
+                return closureEvaluate(value: x) + closureEvaluate(value: y)
+            case let .multiplication(x, c):
+                 return x * closureEvaluate(value: c)
+        }
+    }
+
+    return closureEvaluate(value: mult)
+}
+
+print(recursiveEnumerations())
