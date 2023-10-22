@@ -22,18 +22,30 @@ class Uri {
     }
 }
 
-func mainDownload() async {
+func mainDownload() {
 
     let file = "https://file6.com"
 
     print("----")
     print("init download img")
+    Task {
+        let img = await initDownloadResource(type: .JPG, uri: Uri(uri: file))
+        print("img finish")
+        print("-----")
 
-    let img = await initDownloadResource(type: .JPG, uri: Uri(uri: file))
-    print("img start")
-    print("-----")
+        if img { print("img download is success") } else { print("img not supported")}
+    }
+    print("online")
+    print("----")
+    print("init download mp4")
+    Task {
+        let mp4 = await initDownloadResource(type: .MP4, uri: Uri(uri: file))
+        print("mp4 finish")
+        print("-----")
 
-    if img { print("img download is success") } else { print("img not supported")}
+        if mp4 { print("mp4 download is success") } else { print("mp4 not supported")}
+    }
+    print("online")
 }
 
 func initDownloadResource(type: ResourceTyoe, uri: Uri) async -> Bool {
@@ -91,6 +103,5 @@ func onDownload(uri: String, expectedBytes: Int, fallbackStatus: (Int) -> Bool )
 }
 
 // start test await/async
-Task {
-   await mainDownload()
-}
+
+    mainDownload()
