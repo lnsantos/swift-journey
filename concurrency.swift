@@ -65,6 +65,12 @@ func asyncDownloadParallel() async {
     print("online")
 }
 
+/* await taskGroupResource(type: ResourceTyoe, uris: [Uri]) { taskGroup in 
+    for r in uris {
+        taskGroup.addTask { await initDownloadResource(type: type, uri: r) }
+    }
+} */
+
 func initDownloadResource(type: ResourceTyoe, uri: Uri) async -> Bool {
     
     print("meta-data: { 'bytes': \(type.rawValue), 'type': \(type), 'hasValue': \(type.hashValue) }")
@@ -121,5 +127,39 @@ func onDownload(uri: String, expectedBytes: Int, fallbackStatus: (Int) -> Bool )
 
 // start test await/async
 // mainDownload()
+// await asyncDownloadParallel()
 
-await asyncDownloadParallel()
+let jpg1 = Task { await initDownloadResource(type: .JPG, uri: Uri(uri: "file")) }
+let jpg2 = Task { await initDownloadResource(type: .JPG, uri: Uri(uri: "file")) }
+let jpg3 = Task { await initDownloadResource(type: .JPG, uri: Uri(uri: "file")) }
+
+print(await jpg1.value)
+print(await jpg2.value)
+print(await jpg3.value)
+
+actor CurrentShow {
+    let file: String
+    var history: [String]
+
+    init(_file: String) {
+        self.file = _file
+        self.history = [_file]
+    }
+}
+
+extension CurrentShow {
+    func reset() {
+        history = []
+    }
+    func add(file: String) {
+        history.append(file)
+    }
+}
+
+let show = CurrentShow(_file: "abc")
+await show.add(file:"abc")
+
+print(await show.history)
+await show.reset()
+
+print(await show.history)
