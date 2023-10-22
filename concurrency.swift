@@ -48,13 +48,30 @@ func mainDownload() {
     print("online")
 }
 
+func asyncDownloadParallel() async {
+    let file = "https://file6.com"
+
+    print("----")
+    print("init download")
+
+    async let img = initDownloadResource(type: .JPG, uri: Uri(uri: file))
+    async let mp4 = initDownloadResource(type: .MP4, uri: Uri(uri: file))
+    async let png = initDownloadResource(type: .PNG, uri: Uri(uri: file))
+
+    if await img { print("img download is success") } else { print("img not supported")}
+    if await mp4 { print("mp4 download is success") } else { print("mp4 not supported")}
+    if await png { print("PNG download is success") } else { print("png not supported")}
+    
+    print("online")
+}
+
 func initDownloadResource(type: ResourceTyoe, uri: Uri) async -> Bool {
     
     print("meta-data: { 'bytes': \(type.rawValue), 'type': \(type), 'hasValue': \(type.hashValue) }")
 
     var currentBytes : Int = 0 {
         willSet {
-            print("current bytes \(newValue) in \(type.rawValue)")
+            // print("current bytes \(newValue) in \(type.rawValue)")
         }
     }
 
@@ -72,7 +89,7 @@ func initDownloadResource(type: ResourceTyoe, uri: Uri) async -> Bool {
         expectedBytes: type.rawValue, 
         fallbackStatus: closureFallback
     )
-
+    print("meta-data : 'finish' \(type)")
     return data.status && data.error == nil
 }
 
@@ -89,7 +106,7 @@ func consultSizeInWeb(uri: Uri) -> Int {
         case "https://file2.com":
             return 600       
         default:
-            return 300
+            return 500
     }
 }
 
@@ -103,5 +120,6 @@ func onDownload(uri: String, expectedBytes: Int, fallbackStatus: (Int) -> Bool )
 }
 
 // start test await/async
+// mainDownload()
 
-    mainDownload()
+await asyncDownloadParallel()
